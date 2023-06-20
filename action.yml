@@ -16,12 +16,6 @@ runs:
     - name: Pack
       run: dotnet pack --no-build -c Release ${{ inputs.project }} -o .
       shell: bash
-    - name: Extract Version
-      id: version
-      run: |
-        version=$(grep -oPm1 "(?<=<Version>)[^<]+" version.props)
-        echo "::set-output name=version::$version"
-      shell: bash
     - name: Push
-      run: dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k ${{ inputs.nuget-key }} --skip-duplicate -n --version "${{ steps.version.outputs.version }}"
+      run: dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k ${{ inputs.nuget-key }} --skip-duplicate -n
       shell: bash
